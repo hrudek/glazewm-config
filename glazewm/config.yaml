@@ -42,8 +42,7 @@ general:
   show_all_in_taskbar: false
 
   # (Windows-only) Prime WSLg/RAIL windows via a synthetic snap chord so
-  # that resizes reach the Linux surface. RWIN is used here because
-  # PowerToys Keyboard Manager remaps LWIN on this machine.
+  # that resizes reach the Linux surface.
   snap_arrange:
     enabled: true
     modifier_key: "rwin"
@@ -58,11 +57,6 @@ gaps:
 
   # Gap between windows and the screen edge.
   outer_gap:
-    # top: "45px"
-    # right: "10px"
-    # bottom: "10px"
-    # left: "10px"
-    # Reserve the undocked Zebar bar; fullscreen ignores this tiling gap.
     top: "28px"
     right: "0px"
     bottom: "0px"
@@ -178,15 +172,10 @@ window_rules:
       - window_process: { equals: "POWERPNT" }
         window_class: { not_regex: "PPTFrameClass" }
 
-      # Ignore rules for my own apps.
+      # Ignore rules for work apps.
       - window_process: { equals: "M42UEM_UI" }
-      # - window_process: { equals: "KeePass" }
       - window_process: { equals: "RemoteDesktopManager" }
         window_title: { regex: ".*(Credential|last opened).*" }
-      # - window_process: { equals: "OUTLOOK" }
-      #   window_title: { regex: ".*(Nachricht|Besprechung|Termin).*" }
-      # - window_process: { equals: "Microsoft" }
-      #   window_title: { regex: ".*Command.*" }
       - window_process: { equals: "zen" }
         window_title: { regex: "Library" }
 
@@ -230,172 +219,152 @@ binding_modes:
         bindings: ["k", "up"]
       - commands: ["resize --height -2%"]
         bindings: ["j", "down"]
-      # Press Win+R, enter, or escape to return to default keybindings.
+      # Press F19+R/Win+R, enter, or escape to return to default keybindings.
       - commands: ["wm-disable-binding-mode --name resize"]
-        bindings: ["win+r", "escape", "enter"]
+        bindings: ["f19+r", "win+r", "escape", "enter"]
 
 keybindings:
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
-    bindings: ["win+h", "win+left", "f20"]
+    bindings: ["f19+h", "f19+left", "win+left", "f20"]
   - commands: ["focus --direction right"]
-    bindings: ["win+l", "win+right", "f21"]
+    bindings: ["f19+l", "f19+right", "win+right", "f21"]
   - commands: ["focus --direction up"]
-    bindings: ["win+k", "win+up", "f22"]
+    bindings: ["f19+k", "f19+up", "win+up", "f22"]
   - commands: ["focus --direction down"]
-    bindings: ["win+j", "win+down", "f23"]
+    bindings: ["f19+j", "f19+down", "win+down", "f23"]
 
   # Move focused window in a given direction.
   - commands: ["move --direction left"]
-    bindings: ["win+shift+h", "win+shift+left", "shift+f20"]
+    bindings: ["f19+shift+h", "f19+shift+left", "win+shift+left", "shift+f20"]
   - commands: ["move --direction right"]
-    bindings: ["win+shift+l", "win+shift+right", "shift+f21"]
+    bindings: ["f19+shift+l", "f19+shift+right", "win+shift+right", "shift+f21"]
   - commands: ["move --direction up"]
-    bindings: ["win+shift+k", "win+shift+up", "shift+f22"]
+    bindings: ["f19+shift+k", "f19+shift+up", "win+shift+up", "shift+f22"]
   - commands: ["move --direction down"]
-    bindings: ["win+shift+j", "win+shift+down", "shift+f23"]
+    bindings: ["f19+shift+j", "f19+shift+down", "win+shift+down", "shift+f23"]
 
   # Resize focused window by a percentage or pixel amount.
   - commands: ["resize --width -2%"]
-    bindings: ["win+u"]
+    bindings: ["f19+u"]
   - commands: ["resize --width +2%"]
-    bindings: ["win+p"]
+    bindings: ["f19+p"]
   - commands: ["resize --height +2%"]
-    bindings: ["win+o"]
+    bindings: ["f19+o"]
   - commands: ["resize --height -2%"]
-    bindings: ["win+i"]
+    bindings: ["f19+i"]
 
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with
   # the name 'resize'.
   - commands: ["wm-enable-binding-mode --name resize"]
-    bindings: ["win+r"]
+    bindings: ["f19+r", "win+r"]
 
-  # Disables window management and all other keybindings until win+shift+p
+  # Disables window management and all other keybindings until f19+shift+p
   # is pressed again.
   - commands: ["wm-toggle-pause"]
-    bindings: ["win+shift+p"]
+    bindings: ["f19+shift+p"]
 
   # Change tiling direction. This determines where new tiling windows will
-  # be inserted. Set the direction explicitly instead of toggling it.
+  # be inserted.
   - commands: ["set-tiling-direction horizontal"]
-    bindings: ["win+b"]
+    bindings: ["f19+b"]
   - commands: ["set-tiling-direction vertical"]
-    bindings: ["win+v"]
+    bindings: ["f19+v"]
   - commands: ["toggle-tiling-direction"]
-    bindings: ["win+e"]
+    bindings: ["f19+e", "win+e"]
 
   # Change focus from tiling windows -> floating -> fullscreen.
   # - commands: ["wm-cycle-focus"]
-  #   bindings: ["win+space"]
+  #   bindings: ["f19+space"]
 
   # Change the focused window to be floating.
   - commands: ["toggle-floating --centered"]
-    bindings: ["win+shift+space"]
+    bindings: ["f19+shift+space"]
 
   # Lock the Windows session.
   - commands: ["shell-exec rundll32.exe user32.dll,LockWorkStation"]
-    bindings: ["win+shift+x"]
+    bindings: ["f19+shift+x"]
 
   # Change the focused window opacity.
   # - commands: ["set-transparency --opacity 95%"]
-  #   bindings: ["win+shift+y"]
+  #   bindings: ["f19+shift+y"]
 
   # Change the focused window to be tiling.
   # - commands: ["toggle-tiling"]
-  #  bindings: ["win+t"]
+  #   bindings: ["f19+t"]
 
   # Change the focused window to be fullscreen.
   - commands: ["toggle-fullscreen"]
-    bindings: ["win+f"]
+    bindings: ["f19+f", "win+f"]
 
   # Minimize focused window.
   # - commands: ["toggle-minimized"]
-  #  bindings: ["win+m"]
+  #   bindings: ["f19+m"]
 
   # Close focused window.
   - commands: ["close"]
-    bindings: ["win+shift+q"]
+    bindings: ["f19+shift+q", "win+shift+q"]
 
   # Kill GlazeWM process safely.
   # - commands: ["wm-exit"]
-  #   bindings: ["win+shift+e"]
+  #   bindings: ["f19+shift+e"]
 
   # Re-evaluate configuration file.
   - commands: ["wm-reload-config"]
-    bindings: ["win+shift+c"]
+    bindings: ["f19+shift+c", "win+shift+c"]
 
   # Redraw all windows.
   - commands: ["wm-redraw"]
-    bindings: ["win+shift+w"]
+    bindings: ["f19+shift+w"]
 
-  # Launch CMD terminal. Alternatively, use `shell-exec wt` or
-  # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
-  # Terminal and Git Bash respectively.
+  # Launch Windows Terminal.
   - commands: ["shell-exec wt"]
-    bindings: ["win+enter"]
+    bindings: ["f19+enter", "win+enter"]
 
-  # Launch other programms
-  # - commands: ["shell-exec explorer"]
-  #   bindings: ["win+e"]
-
-  # Focus the next/previous active workspace defined in `workspaces` config.
-  # - commands: ["focus --next-active-workspace"]
-  #   bindings: ["win+s"]
-  # - commands: ["focus --prev-active-workspace"]
-  #   bindings: ["win+a"]
-
-  # Focus the workspace that last had focus.
-  # - commands: ["focus --recent-workspace"]
-  #   bindings: ["win+d"]
+  # Toggle the Wox launcher.
+  - commands:
+      [
+        'shell-exec --hide-window C:\Users\hendrik.rudek\scoop\apps\wox\current\wox.exe wox://toggle',
+      ]
+    bindings: ["f19+d"]
 
   # Change focus to a workspace defined in `workspaces` config.
   - commands: ["focus --workspace 1"]
-    bindings: ["win+1", "ctrl+f1"]
+    bindings: ["f19+1", "win+1", "ctrl+f1"]
   - commands: ["focus --workspace 2"]
-    bindings: ["win+2", "ctrl+f2"]
+    bindings: ["f19+2", "win+2", "ctrl+f2"]
   - commands: ["focus --workspace 3"]
-    bindings: ["win+3", "ctrl+f3"]
+    bindings: ["f19+3", "win+3", "ctrl+f3"]
   - commands: ["focus --workspace 4"]
-    bindings: ["win+4", "ctrl+f4"]
+    bindings: ["f19+4", "win+4", "ctrl+f4"]
   - commands: ["focus --workspace 5"]
-    bindings: ["win+5", "ctrl+f5"]
+    bindings: ["f19+5", "win+5", "ctrl+f5"]
   - commands: ["focus --workspace 6"]
-    bindings: ["win+6", "ctrl+f6"]
+    bindings: ["f19+6", "win+6", "ctrl+f6"]
   - commands: ["focus --workspace 7"]
-    bindings: ["win+7", "ctrl+f7"]
+    bindings: ["f19+7", "win+7", "ctrl+f7"]
   - commands: ["focus --workspace 8"]
-    bindings: ["win+8", "ctrl+f8"]
+    bindings: ["f19+8", "win+8", "ctrl+f8"]
   - commands: ["focus --workspace 9"]
-    bindings: ["win+9", "ctrl+f9"]
-
-  # Move the focused window's parent workspace to a monitor in a given
-  # direction.
-  # - commands: ["move-workspace --direction left"]
-  #   bindings: ["win+shift+a"]
-  # - commands: ["move-workspace --direction right"]
-  #   bindings: ["win+shift+f"]
-  # - commands: ["move-workspace --direction up"]
-  #   bindings: ["win+shift+d"]
-  # - commands: ["move-workspace --direction down"]
-  #   bindings: ["win+shift+s"]
+    bindings: ["f19+9", "win+9", "ctrl+f9"]
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ["move --workspace 1"]
-    bindings: ["win+shift+1", "ctrl+shift+f1"]
+    bindings: ["f19+shift+1", "win+shift+1", "ctrl+shift+f1"]
   - commands: ["move --workspace 2"]
-    bindings: ["win+shift+2", "ctrl+shift+f2"]
+    bindings: ["f19+shift+2", "win+shift+2", "ctrl+shift+f2"]
   - commands: ["move --workspace 3"]
-    bindings: ["win+shift+3", "ctrl+shift+f3"]
+    bindings: ["f19+shift+3", "win+shift+3", "ctrl+shift+f3"]
   - commands: ["move --workspace 4"]
-    bindings: ["win+shift+4", "ctrl+shift+f4"]
+    bindings: ["f19+shift+4", "win+shift+4", "ctrl+shift+f4"]
   - commands: ["move --workspace 5"]
-    bindings: ["win+shift+5", "ctrl+shift+f5"]
+    bindings: ["f19+shift+5", "win+shift+5", "ctrl+shift+f5"]
   - commands: ["move --workspace 6"]
-    bindings: ["win+shift+6", "ctrl+shift+f6"]
+    bindings: ["f19+shift+6", "win+shift+6", "ctrl+shift+f6"]
   - commands: ["move --workspace 7"]
-    bindings: ["win+shift+7", "ctrl+shift+f7"]
+    bindings: ["f19+shift+7", "win+shift+7", "ctrl+shift+f7"]
   - commands: ["move --workspace 8"]
-    bindings: ["win+shift+8", "ctrl+shift+f8"]
+    bindings: ["f19+shift+8", "win+shift+8", "ctrl+shift+f8"]
   - commands: ["move --workspace 9"]
-    bindings: ["win+shift+9", "ctrl+shift+f9"]
+    bindings: ["f19+shift+9", "win+shift+9", "ctrl+shift+f9"]
