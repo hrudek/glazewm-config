@@ -1,3 +1,30 @@
+// CSS :hover can stick in the bar's WebView when native windows steal the
+// pointer, so bar hover is tracked from real pointer movement instead.
+export function trackBarHover(body = document.body) {
+  const doc = body.ownerDocument;
+  const view = doc.defaultView;
+  const enter = () => body.classList.add('is-bar-hovered');
+  const leave = () => {
+    body.classList.remove('is-bar-hovered');
+    if (doc.activeElement?.classList?.contains('status--indicator')) doc.activeElement.blur();
+  };
+  const onMouseOut = event => { if (!event.relatedTarget) leave(); };
+  doc.addEventListener('pointerover', enter);
+  doc.addEventListener('pointermove', enter);
+  doc.documentElement.addEventListener('pointerleave', leave);
+  doc.addEventListener('mouseout', onMouseOut);
+  view.addEventListener('blur', leave);
+  function close() {
+    doc.removeEventListener('pointerover', enter);
+    doc.removeEventListener('pointermove', enter);
+    doc.documentElement.removeEventListener('pointerleave', leave);
+    doc.removeEventListener('mouseout', onMouseOut);
+    view.removeEventListener('blur', leave);
+  }
+  view.addEventListener('pagehide', close, { once: true });
+  return { leave, close };
+}
+
 export function attachBarToggle(button, {
   query, toggle, label, setTitle, reportError, clearError,
 }) {

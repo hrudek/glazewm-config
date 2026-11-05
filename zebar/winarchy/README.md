@@ -38,8 +38,9 @@ The bar uses Catppuccin Mocha Base (`#1e1e2e`) and the normal native window laye
 ## PowerToys Awake toggle
 
 A coffee icon sits immediately left of the centered clock without moving it.
-It fades in while the pointer is anywhere over the bar (or when keyboard-focused),
-including when Awake is on. Off uses the muted color; on uses normal foreground.
+While Awake is on it is always visible; while off it only fades in when the
+pointer is over the bar (or when keyboard-focused) and hides again as soon as
+the pointer leaves. Off uses the muted color; on uses normal foreground.
 Clicking switches PowerToys Awake between passive and indefinite mode. Screen,
 timer and other PowerToys settings are preserved. Enable Awake in PowerToys
 Settings first; the button is disabled when its settings or process are missing.
@@ -54,8 +55,8 @@ permissions.
 
 ## Windows Do not disturb toggle
 
-A 10px muted-bell icon sits left of Awake and follows the same hover-only
-visibility and muted/off versus normal/on colors. It toggles Windows Do not
+A 10px muted-bell icon sits left of Awake and follows the same visibility
+(always shown when on, hover-only when off) and muted/off versus normal/on colors. It toggles Windows Do not
 disturb itself, not application notification permissions or a Focus timer.
 State is read at startup, on hover and every ten seconds.
 
@@ -73,7 +74,7 @@ Restart Zebar to load the exact read/toggle shell permissions.
 ## Windows Night light toggle
 
 A 10px moon icon sits left of Do not disturb and Awake. Like the other two,
-it appears on bar hover or keyboard focus, muted when off and normal when on.
+it is always shown when on and appears on bar hover or keyboard focus when off, muted when off and normal when on.
 Clicking toggles Windows Night light; its schedule and color temperature are
 not changed. External and scheduled changes refresh on hover and every ten
 seconds. Unsupported displays disable the button.

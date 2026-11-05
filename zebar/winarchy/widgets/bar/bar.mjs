@@ -10,7 +10,7 @@ import { shellQuery } from '../shared/native-query.mjs';
 import { queryAwake, toggleAwake } from '../shared/awake-model.mjs';
 import { queryDnd, toggleDnd } from '../shared/dnd-model.mjs';
 import { queryNightLight, toggleNightLight } from '../shared/night-light-model.mjs';
-import { attachBarToggle } from '../shared/bar-toggle.mjs';
+import { attachBarToggle, trackBarHover } from '../shared/bar-toggle.mjs';
 
 for (const [id, icons] of Object.entries({
   split: [['split-horizontal', 'split__horizontal'], ['split-vertical', 'split__vertical']],
@@ -53,6 +53,7 @@ function reportPopupError(error) {
   popupErrorEl.hidden = false;
 }
 popupErrorEl.addEventListener('click', () => { popupErrorEl.hidden = true; });
+trackBarHover();
 const toggleOptions = {
   setTitle, reportError: reportPopupError,
   clearError: () => { popupErrorEl.hidden = true; },

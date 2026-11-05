@@ -491,10 +491,17 @@ test('real Edge renders bar and all popup controls using mocked native APIs', { 
       assert.notEqual(on.color, idle.color);
       assert.equal(on.center, idle.center);
       await client.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 20, y: 100 });
-      assert.equal((await snapshot()).opacity, '0', 'Enabled icon also disappears off bar');
+      assert.equal((await snapshot()).opacity, '1', 'Enabled icon stays visible off bar');
       await evaluate(`document.getElementById('awake-trigger').click();
         new Promise(resolve => setTimeout(resolve, 30));`);
       assert.equal((await snapshot()).pressed, 'false');
+      assert.equal((await snapshot()).opacity, '0', 'Disabled icon hides off bar');
+      await client.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 20, y: 14 });
+      await evaluate(`document.getElementById('awake-trigger').focus();
+        window.dispatchEvent(new Event('blur'));`);
+      const stuck = await snapshot();
+      assert.equal(stuck.opacity, '0', 'Losing the pointer without a leave event still hides disabled icons');
+      assert.equal(await evaluate('document.activeElement.id'), '', 'Leaving the bar drops toggle focus');
       await evaluate(`window.__test.failAwake = true; document.getElementById('awake-trigger').click();
         new Promise(resolve => setTimeout(resolve, 30));`);
       assert.equal((await snapshot()).pressed, 'false');
@@ -545,7 +552,7 @@ test('real Edge renders bar and all popup controls using mocked native APIs', { 
       assert.notEqual(on.color, off.color);
       assert.equal(on.center, off.center);
       await client.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 20, y: 100 });
-      assert.equal((await state()).opacity, '0');
+      assert.equal((await state()).opacity, '1', 'Enabled icon stays visible off bar');
       await evaluate(`document.getElementById('dnd-trigger').click();
         new Promise(resolve => setTimeout(resolve, 30));`);
       assert.equal((await state()).pressed, 'false');
@@ -598,7 +605,7 @@ test('real Edge renders bar and all popup controls using mocked native APIs', { 
       assert.notEqual(on.color, off.color);
       assert.equal(on.center, off.center);
       await client.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 20, y: 100 });
-      assert.equal((await state()).opacity, '0');
+      assert.equal((await state()).opacity, '1', 'Enabled icon stays visible off bar');
       await evaluate(`document.getElementById('night-light-trigger').click();
         new Promise(resolve => setTimeout(resolve, 30));`);
       assert.equal((await state()).pressed, 'false');

@@ -105,7 +105,10 @@ button:focus-visible { outline: 1px solid var(--ctp-lavender); outline-offset: -
   pointer-events: none;
   transition: opacity 120ms ease, color 120ms ease;
 }
-body:hover .status--indicator, .status--indicator:focus-visible {
+/* Enabled toggles always show; disabled ones only while the bar is hovered. */
+.status--indicator[aria-pressed='true'],
+body.is-bar-hovered .status--indicator,
+.status--indicator:focus-visible {
   opacity: 1;
   pointer-events: auto;
 }
