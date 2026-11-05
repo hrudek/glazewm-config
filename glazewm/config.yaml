@@ -320,13 +320,6 @@ keybindings:
   - commands: ["shell-exec wt"]
     bindings: ["f19+enter", "win+enter"]
 
-  # Toggle the Wox launcher.
-  - commands:
-      [
-        'shell-exec --hide-window C:\Users\hendrik.rudek\scoop\apps\wox\current\wox.exe wox://toggle',
-      ]
-    bindings: ["f19+d"]
-
   # Change focus to a workspace defined in `workspaces` config.
   - commands: ["focus --workspace 1"]
     bindings: ["f19+1", "win+1", "ctrl+f1"]
