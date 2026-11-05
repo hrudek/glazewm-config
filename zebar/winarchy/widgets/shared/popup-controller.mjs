@@ -425,6 +425,10 @@ export async function initialisePopup(render, reportError) {
       // Hidden WebViews can suspend requestAnimationFrame. Show the native
       // window while CSS keeps it transparent, then reveal the resized frame.
       await widget.tauriWindow.show();
+      // Tauri only calls SetWindowPos(HWND_TOPMOST) when the always-on-top flag
+      // changes. A reused popup already has it, so other topmost windows (e.g.
+      // GlazeWM floating windows) raised since then would stay above it.
+      await widget.setZOrder('normal');
       await widget.setZOrder('top_most');
       await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       if (request?.requestId !== next.requestId) throw new Error('Popup request was superseded.');

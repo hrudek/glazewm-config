@@ -621,8 +621,13 @@ async function popupHarness(initiallyFocused = false, type = 'calendar', layoutO
       currentWidget: () => ({
         id: 'popup-1', packId: 'winarchy', tauriWindow: nativeWindow,
         setZOrder: async order => {
-          assert.equal(order, 'top_most');
           assert(visible, 'Reassert topmost after showing the native window.');
+          if (order === 'normal') {
+            lifecycle.push('normal');
+            return;
+          }
+          assert.equal(order, 'top_most');
+          assert.equal(lifecycle.at(-1), 'normal', 'Clear topmost first so Tauri re-raises the window.');
           lifecycle.push('topmost');
         },
       }),
@@ -810,7 +815,7 @@ test('native positioning rounds fractional physical coordinates at mixed DPI', a
 
 test('popup stays transparent until native sizing and the resized frame are ready', async () => {
   const popup = await popupHarness();
-  assert.deepEqual(popup.lifecycle, ['position', 'size', 'size', 'position', 'show', 'topmost', 'frame', 'frame', 'visible', 'ready']);
+  assert.deepEqual(popup.lifecycle, ['position', 'size', 'size', 'position', 'show', 'normal', 'topmost', 'frame', 'frame', 'visible', 'ready']);
   const css = await readFile(new URL('../widgets/popup/popup.css', import.meta.url), 'utf8');
   const initialBody = css.match(/\nbody \{([\s\S]*?)\n\}/)?.[1];
   assert.match(initialBody, /background: transparent/);
