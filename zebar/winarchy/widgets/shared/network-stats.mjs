@@ -19,7 +19,7 @@ if ($gateway) {
   $ping = [System.Net.NetworkInformation.Ping]::new()
   try { $reply = $ping.Send($gateway, 800); if ($reply.Status -eq 'Success') { $latency = $reply.RoundtripTime } } finally { $ping.Dispose() }
 }
-[pscustomobject]@{ id = $nic.Id; macAddress = $nic.GetPhysicalAddress().ToString(); ipv4Addresses = $addresses; ssid = $ssids[$nic.Id.Trim('{}').ToLowerInvariant()]; received = $stats.BytesReceived; sent = $stats.BytesSent; gateway = $(if ($gateway) { $gateway.ToString() }); ping = $latency }
+[pscustomobject]@{ id = $nic.Id; macAddress = $nic.GetPhysicalAddress().ToString(); ipv4Addresses = $addresses; ssid = $ssids[$nic.Id.Trim('{}').ToLowerInvariant()]; received = $stats.BytesReceived; sent = $stats.BytesSent; gateway = $(if ($gateway) { $gateway.ToString() } else { $null }); ping = $latency }
 })
 ConvertTo-Json -InputObject $snapshots -Depth 4 -Compress`;
 export const networkStatsArgsRegex = '^' + ('-NoProfile -NonInteractive -Command ' + networkStatsCommand).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$';
